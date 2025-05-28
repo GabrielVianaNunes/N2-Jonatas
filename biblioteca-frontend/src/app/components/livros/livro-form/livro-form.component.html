@@ -1,0 +1,70 @@
+<div class="card">
+  <h2>{{ isEdicao ? 'Editar Livro' : 'Novo Livro' }}</h2>
+
+  <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{ height: '4px' }"></p-progressBar>
+
+  <form [formGroup]="form" (ngSubmit)="salvar()">
+    <div class="grid">
+      <!-- Título -->
+      <div class="col-12 md:col-6">
+        <div class="field">
+          <label for="titulo">Título</label>
+          <input id="titulo" type="text" pInputText formControlName="titulo"
+                 [ngClass]="{ 'ng-invalid ng-dirty': titulo?.invalid && titulo?.touched }" />
+          <small class="p-error" *ngIf="titulo?.invalid && titulo?.touched">
+            <span *ngIf="titulo?.errors?.['required']">Título é obrigatório.</span>
+            <span *ngIf="titulo?.errors?.['minlength']">Mínimo de 3 caracteres.</span>
+          </small>
+        </div>
+      </div>
+
+      <!-- Autor -->
+      <div class="col-12 md:col-6">
+        <div class="field">
+          <label for="autor">Autor</label>
+          <input id="autor" type="text" pInputText formControlName="autor"
+                 [ngClass]="{ 'ng-invalid ng-dirty': autor?.invalid && autor?.touched }" />
+          <small class="p-error" *ngIf="autor?.invalid && autor?.touched">
+            Autor é obrigatório.
+          </small>
+        </div>
+      </div>
+
+      <!-- Editora -->
+      <div class="col-12 md:col-6">
+        <div class="field">
+          <label for="editora">Editora</label>
+          <input id="editora" type="text" pInputText formControlName="editora"
+                 [ngClass]="{ 'ng-invalid ng-dirty': editora?.invalid && editora?.touched }" />
+          <small class="p-error" *ngIf="editora?.invalid && editora?.touched">
+            Editora é obrigatória.
+          </small>
+        </div>
+      </div>
+
+      <!-- Ano de Publicação -->
+      <div class="col-12 md:col-6">
+        <div class="field">
+          <label for="anoPublicacao">Ano de Publicação</label>
+          <input id="anoPublicacao" type="text" pInputText formControlName="anoPublicacao"
+                 [ngClass]="{ 'ng-invalid ng-dirty': anoPublicacao?.invalid && anoPublicacao?.touched }" />
+          <small class="p-error" *ngIf="anoPublicacao?.invalid && anoPublicacao?.touched">
+            <span *ngIf="anoPublicacao?.errors?.['required']">Ano é obrigatório.</span>
+            <span *ngIf="anoPublicacao?.errors?.['pattern']">Ano deve conter 4 dígitos numéricos.</span>
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ações -->
+    <div class="flex justify-content-end mt-4">
+      <button pButton label="Cancelar" icon="pi pi-times"
+              styleClass="p-button-secondary mr-2"
+              type="button" (click)="cancelar()" [disabled]="loading"></button>
+      <button pButton label="Salvar" icon="pi pi-save"
+              type="submit" [loading]="loading"></button>
+    </div>
+  </form>
+</div>
+
+<p-toast></p-toast>
