@@ -1,0 +1,57 @@
+<div class="card">
+  <h2>{{ isEdicao ? 'Editar Usuário' : 'Novo Usuário' }}</h2>
+
+  <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{ height: '4px' }"></p-progressBar>
+
+  <form [formGroup]="form" (ngSubmit)="salvar()">
+    <div class="grid">
+      <!-- Nome -->
+      <div class="col-12 md:col-6">
+        <div class="field">
+          <label for="nome">Nome</label>
+          <input id="nome" type="text" pInputText formControlName="nome"
+                 [ngClass]="{ 'ng-invalid ng-dirty': nome?.invalid && nome?.touched }" />
+          <small class="p-error" *ngIf="nome?.invalid && nome?.touched">
+            <span *ngIf="nome?.errors?.['required']">Nome é obrigatório.</span>
+            <span *ngIf="nome?.errors?.['minlength']">Mínimo de 3 caracteres.</span>
+          </small>
+        </div>
+      </div>
+
+      <!-- Matrícula -->
+      <div class="col-12 md:col-6">
+        <div class="field">
+          <label for="matricula">Matrícula</label>
+          <input id="matricula" type="text" pInputText formControlName="matricula"
+                 [ngClass]="{ 'ng-invalid ng-dirty': matricula?.invalid && matricula?.touched }" />
+          <small class="p-error" *ngIf="matricula?.invalid && matricula?.touched">
+            Matrícula é obrigatória.
+          </small>
+        </div>
+      </div>
+
+      <!-- Curso -->
+      <div class="col-12">
+        <div class="field">
+          <label for="curso">Curso</label>
+          <input id="curso" type="text" pInputText formControlName="curso"
+                 [ngClass]="{ 'ng-invalid ng-dirty': curso?.invalid && curso?.touched }" />
+          <small class="p-error" *ngIf="curso?.invalid && curso?.touched">
+            Curso é obrigatório.
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ações -->
+    <div class="flex justify-content-end mt-4">
+      <button pButton label="Cancelar" icon="pi pi-times"
+              styleClass="p-button-secondary mr-2"
+              type="button" (click)="cancelar()" [disabled]="loading"></button>
+      <button pButton label="Salvar" icon="pi pi-save"
+              type="submit" [loading]="loading"></button>
+    </div>
+  </form>
+</div>
+
+<p-toast></p-toast>
