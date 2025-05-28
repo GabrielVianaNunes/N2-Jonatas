@@ -1,8 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { LivroService } from '@services/livro.service';
-import { Livro } from '@models/livro.model';
+import { UsuarioService } from '@services/usuario.service';
+import { Usuario } from '@models/usuario.model';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -11,7 +11,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ProgressBarModule } from 'primeng/progressbar';
 
 @Component({
-  selector: 'app-livro-list',
+  selector: 'app-usuario-list',
   standalone: true,
   imports: [
     CommonModule,
@@ -23,26 +23,26 @@ import { ProgressBarModule } from 'primeng/progressbar';
     ProgressBarModule
   ],
   providers: [ConfirmationService],
-  templateUrl: './livro-list.component.html',
-  styleUrls: ['./livro-list.component.css']
+  templateUrl: './usuario-list.component.html',
+  styleUrls: ['./usuario-list.component.css']
 })
-export class LivroListComponent implements OnInit {
-  livros: Livro[] = [];
+export class UsuarioListComponent implements OnInit {
+  usuarios: Usuario[] = [];
   loading = true;
 
-  private livroService = inject(LivroService) as LivroService;
+  private usuarioService = inject(UsuarioService);
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
 
   ngOnInit(): void {
-    this.carregarLivros();
+    this.carregarUsuarios();
   }
 
-  carregarLivros(): void {
+  carregarUsuarios(): void {
     this.loading = true;
-    this.livroService.getLivros().subscribe({
-      next: (data: Livro[]) => {
-        this.livros = data;
+    this.usuarioService.getUsuarios().subscribe({
+      next: (data: Usuario[]) => {
+        this.usuarios = data;
         this.loading = false;
       },
       error: (error: unknown) => {
@@ -50,38 +50,38 @@ export class LivroListComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Erro',
-          detail: 'Erro ao carregar livros: ' + msg
+          detail: 'Erro ao carregar usuários: ' + msg
         });
         this.loading = false;
       }
     });
   }
 
-  confirmarExclusao(livro: Livro): void {
+  confirmarExclusao(usuario: Usuario): void {
     this.confirmationService.confirm({
-      message: `Deseja excluir o livro "${livro.titulo}"?`,
+      message: `Deseja excluir o usuário "${usuario.nome}"?`,
       header: 'Confirmar Exclusão',
       icon: 'pi pi-exclamation-triangle',
-      accept: () => this.excluirLivro(livro.id!)
+      accept: () => this.excluirUsuario(usuario.id!)
     });
   }
 
-  excluirLivro(id: number): void {
-    this.livroService.excluirLivro(id).subscribe({
+  excluirUsuario(id: number): void {
+    this.usuarioService.excluirUsuario(id).subscribe({
       next: () => {
         this.messageService.add({
           severity: 'success',
           summary: 'Sucesso',
-          detail: 'Livro excluído com sucesso!'
+          detail: 'Usuário excluído com sucesso!'
         });
-        this.carregarLivros();
+        this.carregarUsuarios();
       },
       error: (error: unknown) => {
         const msg = error instanceof Error ? error.message : 'Erro desconhecido';
         this.messageService.add({
           severity: 'error',
           summary: 'Erro',
-          detail: 'Erro ao excluir livro: ' + msg
+          detail: 'Erro ao excluir usuário: ' + msg
         });
       }
     });
