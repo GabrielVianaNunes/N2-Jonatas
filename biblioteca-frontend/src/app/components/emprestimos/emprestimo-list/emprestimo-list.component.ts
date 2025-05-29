@@ -6,6 +6,7 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 @Component({
   selector: 'app-emprestimo-list',
@@ -14,7 +15,8 @@ import { MessageService } from 'primeng/api';
     CommonModule,
     TableModule,
     ButtonModule,
-    ToastModule
+    ToastModule,
+    ProgressBarModule
   ],
   providers: [MessageService],
   templateUrl: './emprestimo-list.component.html',
