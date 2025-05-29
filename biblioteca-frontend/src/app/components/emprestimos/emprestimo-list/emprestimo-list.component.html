@@ -1,0 +1,36 @@
+<div class="card">
+  <div class="flex justify-content-between align-items-center mb-3">
+    <h2 class="m-0">Lista de Empréstimos</h2>
+  </div>
+
+  <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{ height: '4px' }"></p-progressBar>
+
+  <p-table [value]="emprestimos" [paginator]="true" [rows]="10" [loading]="loading">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Livro</th>
+        <th>Usuário</th>
+        <th>Data de Empréstimo</th>
+        <th>Data de Devolução Prevista</th>
+        <th>Status</th>
+        <th>Ações</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-emprestimo>
+      <tr>
+        <td>{{ emprestimo.livro.titulo }}</td>
+        <td>{{ emprestimo.usuario.nome }}</td>
+        <td>{{ emprestimo.dataEmprestimo | date: 'shortDate' }}</td>
+        <td>{{ emprestimo.dataDevolucaoPrevista | date: 'shortDate' }}</td>
+        <td>{{ emprestimo.status }}</td>
+        <td>
+          <button *ngIf="emprestimo.status === 'EMPRESTADO'" pButton icon="pi pi-check"
+                  styleClass="p-button-rounded p-button-success"
+                  (click)="devolverEmprestimo(emprestimo.id!)"></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-toast></p-toast>
